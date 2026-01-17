@@ -108,13 +108,14 @@ class ClsLavagnaBL
         // x ciclare tutte le righe
         while ($row = mysqli_fetch_assoc($result)) 
         { 
+            $id = $row['id'];
             $marca = $row['marca'];
             $forma = $row['forma'];
             $altezza = $row['altezza'];
             $larghezza = $row['larghezza'];
             $tipo = $row['tipo'];
 
-            $new_lavagna = new ClsLavagna($marca, $forma, $altezza,$larghezza,$tipo);
+            $new_lavagna = new ClsLavagna($id, $marca, $forma, $altezza,$larghezza,$tipo);
             $arr_lavagne[] = $new_lavagna;
         }
         $stmt->close();

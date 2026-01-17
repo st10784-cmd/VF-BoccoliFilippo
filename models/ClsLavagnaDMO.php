@@ -1,6 +1,7 @@
 <?php
 class ClsLavagna
 {    
+    private $id;
     private $marca;
     private $forma;
     private $larghezza;
@@ -8,13 +9,25 @@ class ClsLavagna
     private $tipo;
 
     //Costruttore
-    public function __construct($marca,$forma,$larghezza,$altezza,$tipo)
+    public function __construct($id, $marca,$forma,$larghezza,$altezza,$tipo)
     {        
+        $this->setID($id);
         $this->setMarca($marca);
         $this->setForma($forma);
         $this->setLarghezza($larghezza);
         $this->setAltezza($altezza);
         $this->setTipo($tipo);
+    }
+
+    //ID
+    public function getID(){
+        return $this->id;
+    }
+
+    public function setID($id)
+    {
+        if($id >= 0)
+            $this->id = $id;
     }
 
     //Marca

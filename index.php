@@ -37,9 +37,11 @@ switch($mode)
 		break;
 
 	case 'update':
+        modifica();//Permetto all'utente di modificare
 		break;
 
 	case 'modify':
+        aggiorna();//Eseguo gli aggiornamenti 
 		break;
 
 	default:
@@ -157,7 +159,7 @@ function inserisci(){
         $larghezza = $_POST['larghezza'];
         $tipo = $_POST['tipo'];
 
-        $new_lavagna = new ClsLavagna($marca, $forma, $altezza,$larghezza,$tipo);
+        $new_lavagna = new ClsLavagna(NULL, $marca, $forma, $altezza,$larghezza,$tipo);
         print_r("Inserisco la nuova lavagna<br>");
         ClsLavagnaBL::Inserisci($new_lavagna);
     }
@@ -187,6 +189,7 @@ function generaTabella(&$testoHtml)
     $testoHtml .= "<tr>  <th>marca</th>  <th>forma</th>   <th>altezza</th> <th>larghezza</th> <th>tipo</th></tr>";
     foreach ($_SESSION['lavagne'] as $key=>$lavagna)
     {
+		$id = $lavagna->getID();
 		$forma = $lavagna->getForma();
 		$marca = $lavagna->getMarca();
 		$altezza = $lavagna->getAltezza();
@@ -198,8 +201,8 @@ function generaTabella(&$testoHtml)
         $testoHtml .= "<td>{$altezza}</td>";
         $testoHtml .= "<td>{$larghezza}</td>";
         $testoHtml .= "<td>{$tipo}</td>";
-        $testoHtml .= "<td><a href='$nome_pagina?mode=update&indice=$key'>Aggiorna</a></td>";
-        $testoHtml .= "<td><a href='$nome_pagina?mode=delete&indice=$key'>Elimina</a></td>";
+        $testoHtml .= "<td><a href='$nome_pagina?mode=update&indice=$id'>Aggiorna</a></td>";
+        $testoHtml .= "<td><a href='$nome_pagina?mode=delete&indice=$id'>Elimina</a></td>";
         $testoHtml .= "</tr>\n";
     } 
 
