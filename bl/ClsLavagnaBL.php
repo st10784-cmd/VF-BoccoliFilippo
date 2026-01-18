@@ -108,7 +108,7 @@ class ClsLavagnaBL
         // x ciclare tutte le righe
         while ($row = mysqli_fetch_assoc($result)) 
         { 
-            $id = $row['id'];
+            $id = $row['ID'];
             $marca = $row['marca'];
             $forma = $row['forma'];
             $altezza = $row['altezza'];

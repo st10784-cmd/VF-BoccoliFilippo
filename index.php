@@ -183,7 +183,7 @@ function aggiorna(){}
 function generaTabella(&$testoHtml)
 {
     //<tr> -> righe
-    //<td> -> colonne    
+    //<td>/<th> -> colonne    
     global $nome_pagina;
     $testoHtml .= "<table>";
     $testoHtml .= "<tr>  <th>marca</th>  <th>forma</th>   <th>altezza</th> <th>larghezza</th> <th>tipo</th></tr>";
