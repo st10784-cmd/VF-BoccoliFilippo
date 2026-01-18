@@ -145,7 +145,6 @@ function isAllSet()
         !empty($_POST['altezza']) &&
         !empty($_POST['larghezza']) &&
         !empty($_POST['tipo']);
-    print_r($isAllSet);
     return $isAllSet;
 }
 // #region FUNZIONI CRUD
@@ -165,18 +164,62 @@ function inserisci(){
     }
 }
 
-//Modifica (la pagina dovrà mandare a schermao la lavagna selezionata in dettaglio e permettere di modificare)
-function modifica(){}
-
 //Elimina da index
 function elimina(){
-    $indice = $_GET['indice'];
-    print_r("Rimuovo la lavagna alla posizione: $indice<br>");
-    ClsLavagnaBL::Elimina($indice);
+    $id = $_GET['id'];
+    ClsLavagnaBL::Elimina($id);
+}
+
+//Modifica
+function modifica(){
+    //Varibili per mostrare in details la lavagna
+    global $upd_marca;
+    global $upd_forma;
+    global $upd_altezza;
+    global $upd_larghezza;
+    global $upd_tipo;
+
+    //Variabili per indirizzare la pagina
+    global $nome_pagina;
+    global $main_mode;
+    global $main_titolo;
+    global $destinazione_pag;
+
+    //L'utente vuole aggiornare questo elemento
+    $id = $_GET['id'];
+    //Carico gli input con i suoi attributi
+    $lavagna = ClsLavagnaBL::SelectByID($id);
+
+    $upd_forma = $lavagna->getForma();
+    $upd_marca = $lavagna->getMarca();
+    $upd_altezza = $lavagna->getAltezza();
+    $upd_larghezza = $lavagna->getLarghezza();
+    $upd_tipo = $lavagna->getTipo();
+
+    //Cambio alcune variabili in modo che la pagina sia pronta ad
+    //accogliere una modifica piuttosto che un nuovo inserimento
+    $main_mode  = "Modifica"; //cambio il testo del bottone primario
+    $main_titolo = "Modifica il mouse"; //cambio il titolo
+    $destinazione_pag = "$nome_pagina?mode=modify&id=$id";
 }
 
 //Eseguo la modifica della lavagna, sovrascrivo l'index dato con la lavagna data
-function aggiorna(){}
+function aggiorna(){
+    
+    print_r("SONO IN MODIFY<br>");
+    //Informazioni dall'url
+    $id = $_GET['id'];
+    //Informazione dalla form
+    $marca = $_POST['marca'];
+    $forma = $_POST['forma'];
+    $altezza = $_POST['altezza'];
+    $larghezza = $_POST['larghezza'];
+    $tipo = $_POST['tipo'];
+    
+    $modified_lavagna = new ClsLavagna(NULL, $marca, $forma, $altezza,$larghezza,$tipo);
+    print_r("Modifico mouse ad indice $id<br>");
+    ClsLavagnaBL::Modifica($modified_lavagna, $id);
+}
 
 // #endregion
 
@@ -201,8 +244,8 @@ function generaTabella(&$testoHtml)
         $testoHtml .= "<td>{$altezza}</td>";
         $testoHtml .= "<td>{$larghezza}</td>";
         $testoHtml .= "<td>{$tipo}</td>";
-        $testoHtml .= "<td><a href='$nome_pagina?mode=update&indice=$id'>Aggiorna</a></td>";
-        $testoHtml .= "<td><a href='$nome_pagina?mode=delete&indice=$id'>Elimina</a></td>";
+        $testoHtml .= "<td><a href='$nome_pagina?mode=update&id=$id'>Aggiorna</a></td>";
+        $testoHtml .= "<td><a href='$nome_pagina?mode=delete&id=$id'>Elimina</a></td>";
         $testoHtml .= "</tr>\n";
     } 
 
@@ -254,7 +297,7 @@ function generaTabella(&$testoHtml)
             </div>
             <br>
             
-            <button type="submit" name ="Inserisci" class="btn btn-primary">Inserisci</button>
+            <button type="submit" name ="Azione" class="btn btn-primary"><?php echo $main_mode;?></button>
         </form>
 	<!-- questa riga sempre per ultima -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

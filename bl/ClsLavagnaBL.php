@@ -4,6 +4,51 @@ require_once "inc/ClsConnessione.php";
 class ClsLavagnaBL
 {
     //Inserimento
+    public static function SelectByID($id)
+    {
+        $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
+
+        //Controllo se la connesione al DB è riuscita 
+        if($db->connect_error)
+        {
+            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+        }
+
+        $query = "SELECT * FROM lavagne WHERE ID=?";
+
+        //preparo lo statement della query parametrica
+        //sostituirà il ? con il valore del campo username
+        $stmt = $db->prepare($query);
+
+        //bind: i=integer, d=double, s=string, b=blob(campo binario molto grande ades imagie)
+        $stmt->bind_param("i", $id);
+
+        //Eseguo la query 
+        $stmt->execute();
+
+        //Controllo se è avvenuto un'errore 
+        if ($stmt->error)
+        {
+            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+        }
+
+        $result = $stmt->get_result();        
+
+        $row = mysqli_fetch_assoc($result);
+        $id = $row['ID'];
+        $marca = $row['marca'];
+        $forma = $row['forma'];
+        $altezza = $row['altezza'];
+        $larghezza = $row['larghezza'];
+        $tipo = $row['tipo'];
+
+        $lavagna = new ClsLavagna($id, $marca, $forma, $altezza,$larghezza,$tipo);            
+
+        $stmt->close();
+        return $lavagna;
+    }
+    
+    //Inserimento
     public static function Inserisci($lavagna)
     {
         $forma = $lavagna->getForma();
@@ -37,8 +82,8 @@ class ClsLavagnaBL
         {
             $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
         }
-
-        $result = $stmt->get_result();        
+        print_r("Affected rows: " . $stmt -> affected_rows);
+        //$result = $stmt->get_result();        
         $stmt->close();
     }
 
@@ -46,7 +91,6 @@ class ClsLavagnaBL
     public static function Elimina($indice)
     {
         $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
-    print_r("RimuESEUOovo la lavagna alla posizione: $indice<br>");
         //Controllo se la connesione al DB è riuscita 
         if($db->connect_error)
         {
@@ -76,7 +120,41 @@ class ClsLavagnaBL
     //Modifica
     public static function Modifica($lavagna, $indice)
     {
+        $id = $lavagna->getID();
+        $forma = $lavagna->getForma();
+        $marca = $lavagna->getMarca();
+        $altezza = $lavagna->getAltezza();
+        $larghezza = $lavagna->getLarghezza();
+        $tipo = $lavagna->getTipo();
+        print_r("La forma che è arrivata: " . $forma);
+        $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
+
+        //Controllo se la connesione al DB è riuscita 
+        if($db->connect_error)
+        {
+            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+        }
         
+        $query = "UPDATE `lavagne` SET `forma`=?, `marca`=?, `altezza`=?, `larghezza`=?, `tipo`=? WHERE `ID`=?";
+        //$query = "UPDATE lavagne SET forma=?, marca=?, altezza=?, larghezza=?, tipo=? WHERE ID=?";
+
+        //preparo lo statement della query parametrica
+        //sostituirà il ? con il valore del campo username
+        $stmt = $db->prepare($query);
+
+        //bind: i=integer, d=double, s=string, b=blob(campo binario molto grande es imagie)
+        $stmt->bind_param("sssssi", $forma, $marca,$altezza,$larghezza,$tipo,$id);
+
+        //Eseguo la query 
+        $stmt->execute();
+
+        //Controllo se è avvenuto un'errore 
+        if ($stmt->error)
+        {
+            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+        }
+        print_r("Affected rows: " . $stmt -> affected_rows);
+        $stmt->close();
     }
 
     //Visualizza
