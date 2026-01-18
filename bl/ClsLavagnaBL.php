@@ -126,6 +126,8 @@ class ClsLavagnaBL
         $altezza = $lavagna->getAltezza();
         $larghezza = $lavagna->getLarghezza();
         $tipo = $lavagna->getTipo();
+        
+        print_r("ID modificato: " . $id);
         print_r("La forma che è arrivata: " . $forma);
         $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
 
@@ -135,15 +137,16 @@ class ClsLavagnaBL
             $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
         }
         
-        $query = "UPDATE `lavagne` SET `forma`=?, `marca`=?, `altezza`=?, `larghezza`=?, `tipo`=? WHERE `ID`=?";
-        //$query = "UPDATE lavagne SET forma=?, marca=?, altezza=?, larghezza=?, tipo=? WHERE ID=?";
+        //UPDATE lavagne SET forma='quadrata', marca='Franca', altezza=104, larghezza=104, tipo='ardesia' WHERE id=18 (funziona)
+        //$query = "UPDATE `lavagne` SET `forma`=?, `marca`=?, `altezza`=?, `larghezza`=?, `tipo`=? WHERE `ID`=?;";
+        $query = "UPDATE lavagne SET forma=?, marca=?, altezza=?, larghezza=?, tipo=? WHERE id=?";
 
         //preparo lo statement della query parametrica
         //sostituirà il ? con il valore del campo username
         $stmt = $db->prepare($query);
 
         //bind: i=integer, d=double, s=string, b=blob(campo binario molto grande es imagie)
-        $stmt->bind_param("sssssi", $forma, $marca,$altezza,$larghezza,$tipo,$id);
+        print_r("bind_param: " . $stmt->bind_param("sssssi", $forma, $marca,$altezza,$larghezza,$tipo,$id));
 
         //Eseguo la query 
         $stmt->execute();

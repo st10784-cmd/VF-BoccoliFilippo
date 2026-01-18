@@ -216,7 +216,7 @@ function aggiorna(){
     $larghezza = $_POST['larghezza'];
     $tipo = $_POST['tipo'];
     
-    $modified_lavagna = new ClsLavagna(NULL, $marca, $forma, $altezza,$larghezza,$tipo);
+    $modified_lavagna = new ClsLavagna($id, $marca, $forma, $altezza,$larghezza,$tipo);
     print_r("Modifico mouse ad indice $id<br>");
     ClsLavagnaBL::Modifica($modified_lavagna, $id);
 }
