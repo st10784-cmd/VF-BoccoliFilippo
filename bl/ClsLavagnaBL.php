@@ -51,6 +51,13 @@ class ClsLavagnaBL
     //Inserimento
     public static function Inserisci($lavagna)
     {
+
+        $forma = $lavagna->getForma();
+        $marca = $lavagna->getMarca();
+        $altezza = $lavagna->getAltezza();
+        $larghezza = $lavagna->getLarghezza();
+        $tipo = $lavagna->getTipo();
+
         $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
 
         //Controllo se la connesione al DB è riuscita 
@@ -68,11 +75,11 @@ class ClsLavagnaBL
         //erroe qua
         //bind: i=integer, d=double, s=string, b=blob(campo binario molto grande es imagie)
         $stmt->bind_param("sssss", 
-        $lavagna->getForma(), 
-        $lavagna->getMarca(),
-        $lavagna->getAltezza(),
-        $lavagna->getLarghezza(),
-        $lavagna->getTipo());
+            $forma,
+            $marca,
+            $altezza,
+            $larghezza,
+            $tipo);
 
         //Eseguo la query 
         $stmt->execute();
@@ -119,8 +126,15 @@ class ClsLavagnaBL
     //Modifica
     public static function Modifica($lavagna, $indice)
     {
-
         
+        $forma = $lavagna->getForma();
+        $marca = $lavagna->getMarca();
+        $altezza = $lavagna->getAltezza();
+        $larghezza = $lavagna->getLarghezza();
+        $tipo = $lavagna->getTipo();
+        $id = $lavagna->getId();
+
+
         $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
 
         //Controllo se la connesione al DB è riuscita 
@@ -137,12 +151,12 @@ class ClsLavagnaBL
 
         //bind: i=integer, d=double, s=string, b=blob(campo binario molto grande es imagie)
         $stmt->bind_param("sssssi", 
-        $lavagna->getForma(), 
-        $lavagna->getMarca(),
-        $lavagna->getAltezza(),
-        $lavagna->getLarghezza(),
-        $lavagna->getTipo(),
-        $lavagna->getID());
+            $forma,
+            $marca,
+            $altezza,
+            $larghezza,
+            $tipo,
+            $id);
 
         //Eseguo la query 
         $stmt->execute();

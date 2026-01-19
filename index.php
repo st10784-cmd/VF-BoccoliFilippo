@@ -24,7 +24,7 @@ if(isset($_GET['mode']))
 else
 	$mode = "none";
 
-print_r($mode);
+
 //Inizio codice pagina
 switch($mode)
 {
@@ -59,76 +59,6 @@ $_SESSION['lavagne'] = ClsLavagnaBL::Visualizza();
 
 generaTabella($tabellaLavagne);
 
-
-/*
-if(isset($_GET['mode']))
-{   
-    if(isset($_POST['marca']) && 
-        isset($_POST['forma']) &&
-        isset($_POST['altezza']) &&
-        isset($_POST['larghezza']) &&
-        isset($_POST['tipo']))
-    {
-        if(!empty($_POST['marca']) && 
-            !empty($_POST['forma']) &&
-            !empty($_POST['altezza']) &&
-            !empty($_POST['larghezza']) &&
-            !empty($_POST['tipo']))
-        {
-            if($_GET['mode'] === 'insert')
-            {
-                $marca = $_POST['marca'];
-                $forma = $_POST['forma'];
-                $altezza = $_POST['altezza'];
-                $larghezza = $_POST['larghezza'];
-                $tipo = $_POST['tipo'];
-
-                $new_lavagna = new ClsLavagnaDMO($marca, $forma, $altezza,$larghezza,$tipo);
-                print_r("Inserisco la nuova lavagna<br>");
-                ClsLavagnaBL::Inserisci($new_lavagna);
-            }
-            if($_GET['mode'] === 'modify')
-            {
-                print_r("SONO IN MODIFY<br>");
-                $new_modello = $_POST['modello'];
-                $new_prezzo = $_POST['prezzo'];
-                $new_colore = $_POST['colore'];
-                $indice = $_GET['indice'];
-                $modified_mouse = new ClsMouse($new_modello, $new_prezzo, $new_colore);
-                print_r("Modifico mouse ad indice $indice<br>");
-                ClsMouseHelper::Modifica($modified_mouse, $indice);
-            }
-            
-        }
-
-    }
-    else
-    {
-        if($_GET['mode'] === 'delete')
-        {
-            $indice = $_GET['indice'];
-            print_r("Rimuovo il mouse alla posizione: $indice<br>");
-            ClsMouseHelper::Elimina($indice);
-        }
-        else if($_GET['mode'] === 'update')
-        {
-            //L'utente vuole aggiornare questo elemento
-            $indice = $_GET['indice'];
-            //Carico gli input con i suoi attributi
-            $upd_modello = $_SESSION['mouses'][$indice]->getModello();
-            $upd_prezzo = $_SESSION['mouses'][$indice]->getPrezzo();
-            $upd_colore[$_SESSION['mouses'][$indice]->getIndiceColore()] = true;
-
-            //Cambio alcune variabili in modo che la pagina sia pronta ad
-            //accogliere una modifica piuttosto che un nuovo inserimento
-            $main_mode  = "Modifica"; //cambio il testo del bottone primario
-            $main_titolo = "Modifica il mouse"; //cambio il titolo
-            $destinazione_pag = "$nome_pagina?mode=modify&indice=$indice";
-        }
-    }           
-
-}
-*/
 
 //Controlla che tutti i campi passino sia il controllo "isSet" che "!isEmpty"
 function isAllSet()
