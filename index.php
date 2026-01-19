@@ -50,7 +50,6 @@ switch($mode)
 
 if(!isset($_SESSION['lavagne']))
 {
-    print_r("CREO IL NUOVO ARRAY IN SESSIONE<br>");
     $_SESSION['lavagne'] = array();
 }
 
