@@ -135,7 +135,6 @@ function modifica(){
 //Eseguo la modifica della lavagna, sovrascrivo l'index dato con la lavagna data
 function aggiorna(){
     
-    print_r("SONO IN MODIFY<br>");
     //Informazioni dall'url
     $id = $_GET['id'];
     //Informazione dalla form
