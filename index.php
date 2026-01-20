@@ -88,7 +88,6 @@ function inserisci(){
         $tipo = $_POST['tipo'];
 
         $new_lavagna = new ClsLavagna(NULL, $marca, $forma, $altezza,$larghezza,$tipo);
-        print_r("Inserisco la nuova lavagna<br>");
         ClsLavagnaBL::Inserisci($new_lavagna);
     }
 }
@@ -145,7 +144,6 @@ function aggiorna(){
     $tipo = $_POST['tipo'];
     
     $modified_lavagna = new ClsLavagna($id, $marca, $forma, $altezza,$larghezza,$tipo);
-    print_r("Modifico mouse ad indice $id<br>");
     ClsLavagnaBL::Modifica($modified_lavagna, $id);
 }
 
@@ -190,9 +188,11 @@ function generaTabella(&$testoHtml)
     <title>INVENTARIO LAVAGNE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/default.css">	
+	<link rel="stylesheet" href="css/tabelle.css">	
   </head>
   <body>
-	<?php echo $tabellaLavagne;?>
+    <div><?php echo $tabellaLavagne;?></div>
+	
 	<br>
 	<form action="<?php echo $destinazione_pag; ?>" method="POST">
             <div>
@@ -226,6 +226,10 @@ function generaTabella(&$testoHtml)
             <br>
             
             <button type="submit" name ="Azione" class="btn btn-primary"><?php echo $main_mode;?></button>
+        </form>
+        <br>
+        <form action="index.php?mode=none">
+            <button type="submit" name ="Refresh" class="btn btn-primary">Refresh</button>
         </form>
 	<!-- questa riga sempre per ultima -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

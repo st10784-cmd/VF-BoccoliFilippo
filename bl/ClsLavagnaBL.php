@@ -11,7 +11,7 @@ class ClsLavagnaBL
         //Controllo se la connesione al DB è riuscita 
         if($db->connect_error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+            die("Errore di connessione ad Database");
         }
 
         $query = "SELECT * FROM lavagne WHERE ID=?";
@@ -29,7 +29,7 @@ class ClsLavagnaBL
         //Controllo se è avvenuto un'errore 
         if ($stmt->error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+            die("Errore nella richiesta al Database");
         }
 
         $result = $stmt->get_result();        
@@ -63,7 +63,7 @@ class ClsLavagnaBL
         //Controllo se la connesione al DB è riuscita 
         if($db->connect_error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+            die("Errore di connessione ad Database");
         }
 
         $query = "INSERT INTO lavagne (id,forma,marca,altezza,larghezza,tipo) VALUES (NULL,?,?,?,?,?)";
@@ -87,7 +87,7 @@ class ClsLavagnaBL
         //Controllo se è avvenuto un'errore 
         if ($stmt->error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+            die("Errore nella richiesta al Database");
         }
         //$result = $stmt->get_result();        
         $stmt->close();
@@ -100,7 +100,7 @@ class ClsLavagnaBL
         //Controllo se la connesione al DB è riuscita 
         if($db->connect_error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+            die("Errore di connessione ad Database");
         }
 
         $query = "DELETE FROM lavagne WHERE id=?;";
@@ -118,7 +118,7 @@ class ClsLavagnaBL
         //Controllo se è avvenuto un'errore 
         if ($stmt->error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+            die("Errore nella richiesta al Database");
         }       
         $stmt->close();
     }
@@ -140,7 +140,7 @@ class ClsLavagnaBL
         //Controllo se la connesione al DB è riuscita 
         if($db->connect_error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+            die("Errore di connessione ad Database");
         }
         
         $query = "UPDATE lavagne SET forma=?, marca=?, altezza=?, larghezza=?, tipo=? WHERE id=?";
@@ -164,7 +164,7 @@ class ClsLavagnaBL
         //Controllo se è avvenuto un'errore 
         if ($stmt->error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+            die("Errore nella richiesta al Database");
         }
         $stmt->close();
     }
@@ -178,7 +178,7 @@ class ClsLavagnaBL
 
         if($db->connect_error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore di connessione ad Database</div>";
+            die("Errore di connessione ad Database");
         }
 
         $query = "SELECT * FROM lavagne";
@@ -190,7 +190,7 @@ class ClsLavagnaBL
         //Controllo se è avvenuto un'errore 
         if ($stmt->error)
         {
-            $Testohtml = "<div class='alert alert-danger'>Errore nella richiesta al Database</div>";
+            die("Errore nella richiesta al Database");
         }
 
         $result = $stmt->get_result();    
