@@ -211,5 +211,51 @@ class ClsLavagnaBL
         $stmt->close();
         return $arr_lavagne;
     }
+
+    //Ordina
+    public static function Ordina($filtro)
+    {
+        $ammessi = ['marca', 'forma', 'altezza', 'larghezza', 'tipo'];
+        $arr_lavagne = array();
+
+        $db= new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_NAME);
+
+        if($db->connect_error)
+        {
+            die("Errore di connessione ad Database");
+        }
+
+        $filtro = in_array($filtro, $ammessi) ? $filtro : 'marca';
+
+        $sql = "SELECT * FROM lavagne ORDER BY $filtro";
+
+        $stmt = $db->prepare($sql);
+        
+        $stmt->execute();
+
+        //Controllo se è avvenuto un'errore 
+        if ($stmt->error)
+        {
+            die("Errore nella richiesta al Database");
+        }
+
+        $result = $stmt->get_result();    
+        
+        // x ciclare tutte le righe
+        while ($row = mysqli_fetch_assoc($result)) 
+        { 
+            $new_lavagna = new ClsLavagna(
+            $row['ID'], 
+            $row['marca'], 
+            $row['forma'], 
+            $row['altezza'],
+            $row['larghezza'],
+            $row['tipo']);
+
+            $arr_lavagne[] = $new_lavagna;
+        }
+        $stmt->close();
+        return $arr_lavagne;
+    }
 }
 ?>

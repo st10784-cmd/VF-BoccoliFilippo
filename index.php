@@ -11,12 +11,15 @@ $destinazione_pag = "index.php?mode=insert"; //Link con tanto di parametri per r
 
 $Testohtml = "";
 $tabellaLavagne = "";
+$table_ready = false;//False se è ancora necessario popolare la tabella per mostrare il catalogo a schermo
+                     //Se a false probabilmente era prevista una visualizzazione particola della tabella, ades "ordina" o "cerca" 
 
 $upd_marca = "";
 $upd_forma = "";
 $upd_altezza = "";
 $upd_larghezza = "";
 $upd_tipo = "";
+
 
 
 if(isset($_GET['mode']))
@@ -52,13 +55,14 @@ switch($mode)
 		break;
 }
 
-if(!isset($_SESSION['lavagne']))
-{
-    $_SESSION['lavagne'] = array();
-}
+//Creo l'array in sessione se non esiste
+creaSessione();
 
-//Prendo tutte le lavagne dal database e le carico in sessione
-$_SESSION['lavagne'] = ClsLavagnaBL::Visualizza();
+if(!$table_ready)
+{
+    //Prendo tutte le lavagne dal database e le carico in sessione
+    $_SESSION['lavagne'] = ClsLavagnaBL::Visualizza();
+}
 
 generaTabella($tabellaLavagne);
 
@@ -79,6 +83,15 @@ function isAllSet()
         !empty($_POST['larghezza']) &&
         !empty($_POST['tipo']);
     return $isAllSet;
+}
+
+//Creo l'array in sessione se non esiste
+function creaSessione()
+{
+    if(!isset($_SESSION['lavagne']))
+    {
+        $_SESSION['lavagne'] = array();
+    }
 }
 // #region FUNZIONI CRUD
 //Inserisce una nuova lavagna
@@ -153,7 +166,16 @@ function aggiorna(){
 
 function ordina()
 {
-    
+    global $tabellaLavagne;
+    global $table_ready;
+    if(isset($_POST['order']) && !empty($_POST['order']))
+    {
+        $ordinaPer = $_POST['order'];   
+        print_r("ordino per: $ordinaPer");
+        creaSessione();
+        $_SESSION['lavagne'] = ClsLavagnaBL::Ordina($ordinaPer);
+        $table_ready = true;
+    }
 }
 // #endregion
 
@@ -200,7 +222,7 @@ function generaTabella(&$testoHtml)
   </head>
   <body>
     <div><?php echo $tabellaLavagne;?></div>
-	<form action="index.php?order=" method="POST">
+	<form action="index.php?mode=order" method="POST">
         <div>
             <label class="form-label">Ordina lavagne per: </label>
             <select name="order" id="order">
