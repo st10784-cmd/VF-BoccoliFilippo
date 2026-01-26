@@ -2,7 +2,7 @@
 require_once "models/ClsLavagnaDMO.php";
 require_once "bl/ClsLavagnaBL.php";
 session_start();
-
+//Premi Ctrl + Shift + H
 //varibili per rendere più dinamica la pagina HTML
 $main_mode = "Inserisci"; //Testo nel bottone principale
 $main_titolo = "Catalogo lavagne"; //Testo del titolo
@@ -42,6 +42,10 @@ switch($mode)
 
 	case 'modify':
         aggiorna();//Eseguo gli aggiornamenti 
+		break;
+
+	case 'order':
+        ordina();
 		break;
 
 	default:
@@ -147,6 +151,10 @@ function aggiorna(){
     ClsLavagnaBL::Modifica($modified_lavagna, $id);
 }
 
+function ordina()
+{
+    
+}
 // #endregion
 
 function generaTabella(&$testoHtml)
@@ -178,6 +186,7 @@ function generaTabella(&$testoHtml)
     $testoHtml .= "</table>";
 }
 
+//<option value="bianco"<?php echo $upd_colore[3] ? "selected" : ""?;>>Bianco</option>
 ?>
 
 <!doctype html>
@@ -187,12 +196,23 @@ function generaTabella(&$testoHtml)
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>INVENTARIO LAVAGNE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/default.css">	
 	<link rel="stylesheet" href="css/tabelle.css">	
   </head>
   <body>
     <div><?php echo $tabellaLavagne;?></div>
-	
+	<form action="index.php?order=" method="POST">
+        <div>
+            <label class="form-label">Ordina lavagne per: </label>
+            <select name="order" id="order">
+            <option value="marca">Marca</option>
+            <option value="forma">Forma</option>
+            <option value="altezza">Altezza</option>
+            <option value="larghezza">Larghezza</option>
+            <option value="tipo">Tipo</option>            
+            </select>
+            <button type="submit" name ="Ordina" class="btn btn-primary">Ordina</button>
+        </div>
+    </form>
 	<br>
 	<form action="<?php echo $destinazione_pag; ?>" method="POST">
             <div>
